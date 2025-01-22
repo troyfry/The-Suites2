@@ -1,89 +1,105 @@
-Here's a simple `README.md` file for your Streamlit app using `streamlit-tags` to input memory palace items and save them to a CSV file:
+# README for Content Creator Suite (CCSuite) and Leonardo.ai Batch Image Generator
 
-```markdown
-# 🏰 Memory Palace Creator with Streamlit Tags
+## Overview
+This repository contains two Streamlit-based applications designed to streamline content creation and image generation workflows for creators:
 
-This is a simple Memory Palace Creator built using [Streamlit](https://streamlit.io/) and [streamlit-tags](https://pypi.org/project/streamlit-tags/). It allows users to input multiple items as tags for their memory palace and saves the data to a CSV file. The app provides a dynamic and user-friendly interface for inputting and saving memory palace items.
+1. **Content Creator Suite (CCSuite)**
+   - A suite of tools for content creators to generate video scripts, thumbnail ideas, metadata, and more.
+   - Fully customizable and designed to simplify repetitive content creation tasks.
 
-## 📋 Features
+2. **Leonardo.ai Batch Image Generator**
+   - A batch image generation tool leveraging the Leonardo.ai API.
+   - Allows creators to generate multiple images simultaneously using detailed prompts and download them directly.
 
-- Input multiple memory palace items using `streamlit-tags`.
-- Save the palace name and items to a local CSV file.
-- Update or overwrite existing memory palaces with new items.
-- Display saved memory palace data directly in the app.
+---
 
-## 🛠️ Installation
+## Applications
 
-To run this application, you'll need to install the following dependencies:
+### 1. Content Creator Suite (CCSuite)
+#### Features
+- **Video Script Generation:** Generate video scripts with customizable topics, styles, and durations.
+- **Thumbnail Idea Generator:** Provides creative ideas for YouTube thumbnails.
+- **Image Prompt Generator:** Suggests detailed image prompts for AI image generation tools.
+- **Metadata Creator:** Generates SEO-friendly video titles and descriptions.
 
-1. **Clone or Download the Project:**
+#### Usage
+1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/memory-palace-app.git
-   cd memory-palace-app
+   git clone https://github.com/your-repo/ccsuite
+   ```
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Run the app:
+   ```bash
+   streamlit run ccsuite_app.py
+   ```
+4. Enter your OpenAI API key and start creating content.
+
+#### Configuration
+- OpenAI API key is required for all operations.
+- Modify the `ccsuite_app.py` script to add or customize tools.
+
+---
+
+### 2. Leonardo.ai Batch Image Generator
+#### Features
+- **Batch Processing:** Accepts multiple prompts separated by `====` to generate images.
+- **Customizable Settings:** Specify image dimensions, models, and style preferences.
+- **Direct Downloads:** View and download generated images directly from the app.
+- **Leonardo Environment Integration:** Images are also saved in your Leonardo.ai account.
+
+#### Usage
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-repo/leonardo-image-generator
+   ```
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Run the app:
+   ```bash
+   streamlit run leonardo_image_generator.py
+   ```
+4. Enter your Leonardo.ai API key and input prompts to generate images.
+
+#### Instructions
+- **Prompts:** Write prompts in the text area, separating multiple prompts with `====`.
+- **Generated Images:** View and download images directly from the app interface.
+
+---
+
+## Installation
+1. Ensure Python 3.8+ is installed on your system.
+2. Install required dependencies using:
+   ```bash
+   pip install -r requirements.txt
    ```
 
-2. **Install Required Python Libraries:**
-   ```bash
-   pip install streamlit streamlit-tags pandas
-   ```
+---
 
-## 🚀 Running the App
+## API Key Setup
+Both applications require API keys:
+- **CCSuite:** Requires an OpenAI API key for generating scripts, metadata, and prompts.
+- **Leonardo Image Generator:** Requires a Leonardo.ai API key for image generation.
 
-Once you have the required dependencies installed, you can run the app locally using Streamlit.
+---
 
-1. **Run the App:**
-   ```bash
-   streamlit run app.py
-   ```
-
-2. **Interact with the App:**
-   - Open your web browser and go to `http://localhost:8501` (this will automatically open after you run the command).
-   - Input a **Memory Palace Name**.
-   - Add items dynamically using the tag input field.
-   - Press **Save Palace Items** to save the items to the CSV file.
-
-## 📂 File Structure
-
+## Folder Structure
 ```
 .
-├── app.py                  # Main application script
-├── README.md               # This README file
-├── app                     # Directory where CSV files are stored
-│   ├── palace_items.csv    # CSV file to store memory palace data
+├── ccsuite_app.py                # Main script for Content Creator Suite
+├── leonardo_image_generator.py   # Main script for Leonardo.ai Batch Image Generator
+├── requirements.txt              # Required Python dependencies
+├── README.md                     # This README file
+└── images/                       # Folder for downloaded images (Leonardo.ai app)
 ```
 
-- **palace_items.csv**: This is where the palace names and items will be saved. The app will automatically create this file if it does not exist.
+---
 
-## 🖥️ Example Usage
+## License
+This project is licensed under the MIT License. See the LICENSE file for details.
 
-1. **Input Palace Name**: 
-   - Enter a name for your memory palace (e.g., "My Palace").
 
-2. **Add Items**:
-   - Use the tag input field to add multiple items associated with your memory palace (e.g., "Book", "Lamp", "Desk").
-
-3. **Save**:
-   - Click the **Save Palace Items** button to store the data in a CSV file.
-
-4. **View Data**:
-   - The current list of saved memory palaces and items will be displayed in the app below the input section.
-
-## 🛠️ Dependencies
-
-- [Streamlit](https://streamlit.io/) - The app framework.
-- [streamlit-tags](https://pypi.org/project/streamlit-tags/) - A library for inputting dynamic tags.
-- [pandas](https://pandas.pydata.org/) - Used for reading and writing CSV files.
-
-## 🏗️ Future Enhancements
-
-- Add the ability to categorize memory palace items.
-- Implement cloud storage (e.g., Google Sheets or a database) for palace items.
-- Allow users to download their saved memory palace data as a text or JSON file.
-
-## 🙏 Credits
-
-- **Streamlit**: For making it easy to build and deploy data apps.
-- **streamlit-tags**: For providing the tag input widget.
-- **Pandas**: For simplifying CSV management.
-
-## 📝 License
