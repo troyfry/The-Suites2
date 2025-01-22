@@ -10,6 +10,16 @@ st.title("Leonardo.ai Batch Image Generator")
 # Input for API key
 Leonardo_ai_API = st.text_input("Enter Leonardo API Key", type="password")
 
+# Sidebar Instructions
+st.sidebar.title("Quick Instructions")
+st.sidebar.markdown(
+    """
+    - Enter your Leonardo API key to authenticate.
+    - Write your prompts in the text area below, separating multiple prompts with `====`.
+    - Click "Generate Images" to start the image generation process.
+    - Use the generated images directly or combine them with scripts generated from the Content Creator Suite (CCSuite) for seamless content creation.
+    """
+)
 # Instructions for Users
 with st.expander("Instructions", expanded=False):
     st.markdown(
