@@ -15,6 +15,7 @@ def show_instructions():
     Happy video creation!
     """)
 
+
 def generate_script(topic, duration, style):
     prompt = (
         f"You are a professional scriptwriter for YouTube videos. Based on the following inputs, generate a {duration}-minute script at a normal speaking pace (~750 words).\n"
