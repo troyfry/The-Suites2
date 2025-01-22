@@ -36,7 +36,6 @@ def main():
         """
     )
 
-    st.image("https://via.placeholder.com/800x300", caption="Enhance your content creation workflow")
 
 if __name__ == "__main__":
     main()
