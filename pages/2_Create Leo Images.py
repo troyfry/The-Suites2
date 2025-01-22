@@ -2,7 +2,7 @@ import requests
 import streamlit as st
 from datetime import datetime
 from io import BytesIO
-import os
+import os, time
 
 # Setup
 st.title("Leonardo.ai Batch Image Generator")
@@ -20,6 +20,7 @@ st.sidebar.markdown(
     - Use the generated images directly or combine them with scripts generated from the Content Creator Suite (CCSuite) for seamless content creation.
     """
 )
+
 # Instructions for Users
 with st.expander("Instructions", expanded=False):
     st.markdown(
@@ -40,7 +41,6 @@ with st.expander("Instructions", expanded=False):
         - All generated images will also appear in your Leonardo AI environment.
         """
     )
-
 
 def create_image(prompt, api_key):
     """Generate image using Leonardo.ai API"""
@@ -65,7 +65,6 @@ def create_image(prompt, api_key):
     response = requests.post(url, json=payload, headers=headers)
     return response.json()
 
-
 def get_images(generation_id, api_key):
     """Get generated images"""
     url = f"https://cloud.leonardo.ai/api/rest/v1/generations/{generation_id}"
@@ -78,13 +77,11 @@ def get_images(generation_id, api_key):
     response = requests.get(url, headers=headers)
     return response.json()
 
-
 def save_image_to_memory(url):
     """Save image to memory (BytesIO)"""
     response = requests.get(url)
     img_data = BytesIO(response.content)
     return img_data
-
 
 # Input area
 prompts = st.text_area(
@@ -116,9 +113,9 @@ if st.button("Generate Images") and Leonardo_ai_API:
         for _ in range(30):  # 30 second timeout
             status = get_images(generation_id, Leonardo_ai_API)
             if status['generations_by_pk']['status'] == 'COMPLETE':
-                # Save images to memory and display download buttons in a grid
+                # Display images on screen without saving to a file
                 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-
+                
                 # Create a grid of 3 images per row
                 cols = st.columns(3)  # Create 3 columns for each row
                 col_idx = 0  # Initialize column index
@@ -136,7 +133,7 @@ if st.button("Generate Images") and Leonardo_ai_API:
                             file_name=filename,
                             mime="image/png"
                         )
-
+                    
                     # Move to the next column for the next image
                     col_idx = (col_idx + 1) % 3
 
