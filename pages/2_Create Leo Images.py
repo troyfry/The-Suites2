@@ -94,6 +94,8 @@ A magical forest with glowing mushrooms""",
     height=200
 )
 
+generated_images = []
+
 if st.button("Generate Images") and Leonardo_ai_API:
     # Split prompts
     prompt_list = [p.strip() for p in prompts.split('====') if p.strip()]
@@ -113,30 +115,10 @@ if st.button("Generate Images") and Leonardo_ai_API:
         for _ in range(30):  # 30 second timeout
             status = get_images(generation_id, Leonardo_ai_API)
             if status['generations_by_pk']['status'] == 'COMPLETE':
-                # Display images on screen without saving to a file
-                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                
-                # Create a grid of 3 images per row
-                cols = st.columns(3)  # Create 3 columns for each row
-                col_idx = 0  # Initialize column index
-
-                for idx, img in enumerate(status['generations_by_pk']['generated_images'], 1):
+                # Collect images in memory for download
+                for img in status['generations_by_pk']['generated_images']:
                     img_data = save_image_to_memory(img['url'])
-                    filename = f"{timestamp}_prompt{index}_{idx}.png"
-
-                    # Display image in the column
-                    with cols[col_idx]:
-                        st.image(img_data, caption=filename, width=200)  # Adjust width for smaller images
-                        st.download_button(
-                            label=f"Download {filename}",
-                            data=img_data,
-                            file_name=filename,
-                            mime="image/png"
-                        )
-                    
-                    # Move to the next column for the next image
-                    col_idx = (col_idx + 1) % 3
-
+                    generated_images.append(img_data)
                 break
             time.sleep(1)
 
@@ -145,3 +127,30 @@ if st.button("Generate Images") and Leonardo_ai_API:
             time.sleep(5)
 
     progress_text.write("✅ All images have been processed and are available for download!")
+
+if generated_images:
+    st.header("Download All Images")
+    for idx, img_data in enumerate(generated_images, 1):
+        st.download_button(
+            label=f"Download Image {idx}",
+            data=img_data,
+            file_name=f"image_{idx}.png",
+            mime="image/png"
+        )
+
+    # Provide a zip file option for bulk download
+    from zipfile import ZipFile
+    from io import BytesIO
+
+    zip_buffer = BytesIO()
+    with ZipFile(zip_buffer, "w") as zip_file:
+        for idx, img_data in enumerate(generated_images, 1):
+            zip_file.writestr(f"image_{idx}.png", img_data.getvalue())
+
+    zip_buffer.seek(0)
+    st.download_button(
+        label="Download All Images as ZIP",
+        data=zip_buffer,
+        file_name="all_images.zip",
+        mime="application/zip"
+    )
