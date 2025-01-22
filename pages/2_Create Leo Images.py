@@ -2,6 +2,7 @@ import requests
 import streamlit as st
 from datetime import datetime
 from io import BytesIO
+from zipfile import ZipFile
 import os, time
 
 # Setup
@@ -115,7 +116,7 @@ if st.button("Generate Images") and Leonardo_ai_API:
         for _ in range(30):  # 30 second timeout
             status = get_images(generation_id, Leonardo_ai_API)
             if status['generations_by_pk']['status'] == 'COMPLETE':
-                # Collect images in memory for download
+                # Collect images in memory for display
                 for img in status['generations_by_pk']['generated_images']:
                     img_data = save_image_to_memory(img['url'])
                     generated_images.append(img_data)
@@ -126,22 +127,23 @@ if st.button("Generate Images") and Leonardo_ai_API:
         if index < total_prompts:
             time.sleep(5)
 
-    progress_text.write("✅ All images have been processed and are available for download!")
+    progress_text.write("✅ All images have been processed and are available below!")
 
 if generated_images:
-    st.header("Download All Images")
-    for idx, img_data in enumerate(generated_images, 1):
-        st.download_button(
-            label=f"Download Image {idx}",
-            data=img_data,
-            file_name=f"image_{idx}.png",
-            mime="image/png"
-        )
+    st.header("Generated Images")
+    cols = st.columns(3)  # Create 3 columns for images
+    for idx, img_data in enumerate(generated_images):
+        col = cols[idx % 3]
+        with col:
+            st.image(img_data, width=200)
+            st.download_button(
+                label=f"Download Image {idx + 1}",
+                data=img_data,
+                file_name=f"image_{idx + 1}.png",
+                mime="image/png"
+            )
 
     # Provide a zip file option for bulk download
-    from zipfile import ZipFile
-    from io import BytesIO
-
     zip_buffer = BytesIO()
     with ZipFile(zip_buffer, "w") as zip_file:
         for idx, img_data in enumerate(generated_images, 1):
