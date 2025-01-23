@@ -95,8 +95,9 @@ if api_key:
 
 # User Inputs
 topic = st.text_input("Enter your video topic:")
-duration = st.selectbox("Select video duration (minutes):", [3, 5, 7, 10])
+duration = st.slider("Select video duration (minutes):", min_value=1, max_value=10, value=5)
 style = st.text_area("Describe your style (e.g., Casual, Educational, Humorous):")
+
 
 if st.button("Generate Content"):
     if not api_key:
